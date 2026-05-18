@@ -1,0 +1,58 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.local/bin/pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.local/bin/post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": false,
+    "autoAllowBashIfSandboxed": false,
+    "filesystem": {
+      "allowWrite": ["./src/"],
+      "denyWrite": ["."],
+      "allowRead": ["."]
+    },
+    "faileIfUnavailable": true
+  },
+  "permissions": {
+    "allow": ["Read(./**)", "Edit(./**)"]
+  },
+  "modelProvider": "custom",
+  "customModel": {
+    "url": "http:localhost:8080",
+    "modelName": "qwen3-solidity-27B-Q6_K.gguf",
+    "apiKey": "not-needed",
+    "modelCapabilities": ["completion"],
+    "provider": "openai"
+  }
+}
