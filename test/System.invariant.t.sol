@@ -80,7 +80,7 @@ contract SystemInvariantTest is Test {
 
     // --- ENTRYPOINT UNICO PER FOUNDRY E HALMOS ---
     // Definiamo una sequenza di 4 azioni consecutive nello stesso stato
-    function check_SystemInvariants(Action[4] memory actions) public {
+    function test_check_SystemInvariants(Action[4] memory actions) public {
         for (uint256 i = 0; i < actions.length; i++) {
             Action memory action = actions[i];
 
@@ -105,25 +105,24 @@ contract SystemInvariantTest is Test {
     function _executeBid(address bidder, uint256 amount) internal {
         // Evitiamo bid superiori al bilancio o pari a zero per non sporcare i path puliti
         vm.assume(amount > 0 && amount <= 100_000);
-        
 
         vm.startPrank(bidder);
         // Approviamo l'asta a prelevare i token ERC20 del bidder
         token.approve(address(auction), amount);
 
         // Il try/catch assicura che aggiorniamo lo stato ghost SOLO se l'asta accetta il bid
-        if (ghost_has_finished){
-            vm.expectRevert(Auction.AlreadyFinished.selector);            
-        }    
+        if (ghost_has_finished) {
+            vm.expectRevert(Auction.AlreadyFinished.selector);
+        }
         auction.bid(amount);
-            ghost_nbid += 1;
-            ghost_bids[bidder] += amount;
-            ghost_bidSum += amount;
+        ghost_nbid += 1;
+        ghost_bids[bidder] += amount;
+        ghost_bidSum += amount;
 
-            if (ghost_max_bidder == address(0) || ghost_bids[bidder] > ghost_bids[ghost_max_bidder]) {
-                ghost_max_bidder = bidder;
-            }
-       
+        if (ghost_max_bidder == address(0) || ghost_bids[bidder] > ghost_bids[ghost_max_bidder]) {
+            ghost_max_bidder = bidder;
+        }
+
         vm.stopPrank();
     }
 
@@ -135,16 +134,16 @@ contract SystemInvariantTest is Test {
 
         vm.startPrank(caller);
         if (ghost_has_finished) vm.expectRevert(Auction.AlreadyFinished.selector);
-        
-        address winner = auction.finishAuction();
-            ghost_winner = winner;
-            ghost_has_finished = true;
 
-            // Per testare la "prossima iterazione", incrementiamo il contatore
-            // e prepariamo la nuova asta nello stesso slot di esecuzione
-            ghost_n_iterations += 1;
-            instantiate_auction();
-        
+        address winner = auction.finishAuction();
+        ghost_winner = winner;
+        ghost_has_finished = true;
+
+        // Per testare la "prossima iterazione", incrementiamo il contatore
+        // e prepariamo la nuova asta nello stesso slot di esecuzione
+        ghost_n_iterations += 1;
+        instantiate_auction();
+
         vm.stopPrank();
     }
 
