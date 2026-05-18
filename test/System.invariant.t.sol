@@ -103,6 +103,7 @@ contract SystemInvariantTest is Test {
             // Controlla le invarianti alla fine di OGNI transazione della sequenza
             _assertInvariants();
         }
+        _executeFinish(owner);
     }
 
     // --- LOGICA DI ESECUZIONE DELLE AZIONI ---
@@ -118,6 +119,9 @@ contract SystemInvariantTest is Test {
         // Il try/catch assicura che aggiorniamo lo stato ghost SOLO se l'asta accetta il bid
         if (ghost_has_finished) {
             vm.expectRevert(Auction.AlreadyFinished.selector);
+            auction.bid(amount);
+            vm.stopPrank();
+            return;
         }
         auction.bid(amount);
         ghost_nbid += 1;
@@ -138,7 +142,12 @@ contract SystemInvariantTest is Test {
         vm.warp(block.timestamp + 7 days + 1);
 
         vm.startPrank(caller);
-        if (ghost_has_finished) vm.expectRevert(Auction.AlreadyFinished.selector);
+        if (ghost_has_finished) {
+            vm.expectRevert(Auction.AlreadyFinished.selector);
+            auction.finishAuction();
+            vm.stopPrank();
+            return;
+        }
 
         address winner = auction.finishAuction();
         ghost_winner = winner;
@@ -147,7 +156,7 @@ contract SystemInvariantTest is Test {
         // Per testare la "prossima iterazione", incrementiamo il contatore
         // e prepariamo la nuova asta nello stesso slot di esecuzione
         ghost_n_iterations += 1;
-        instantiate_auction();
+        // instantiate_auction();
 
         vm.stopPrank();
     }
@@ -155,12 +164,6 @@ contract SystemInvariantTest is Test {
     // --- LE TUE INVARIANTI COMPILATE ---
     function _assertInvariants() internal view {
         // Ripristinato il tuo test sui bid mappati
-        for (uint256 i = 0; i < bidders.length; i++) {
-            address bidder = bidders[i];
-            // Se l'asta ha un getter personalizzato, de-commenta la riga sotto:
-            // assertEq(auction.getBid(bidder), ghost_bids[bidder]);
-        }
-
         // Se l'asta è stata conclusa con successo, verifica il vincitore e l'NFT
         if (ghost_has_finished && ghost_winner != address(0)) {
             assertEq(ghost_max_bidder, ghost_winner);
