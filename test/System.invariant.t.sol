@@ -34,7 +34,7 @@ contract SystemInvariantTest is Test {
     }
 
     struct Action {
-        ActionType actionType;
+        uint8 actionType;
         uint256 amount;
         uint256 bidderSeed;
     }
@@ -81,16 +81,21 @@ contract SystemInvariantTest is Test {
     // --- ENTRYPOINT UNICO PER FOUNDRY E HALMOS ---
     // Definiamo una sequenza di 4 azioni consecutive nello stesso stato
     function test_check_SystemInvariants(Action[4] memory actions) public {
+        vm.assume(actions[0].actionType <= 2);
+        vm.assume(actions[1].actionType <= 2);
+        vm.assume(actions[2].actionType <= 2);
+        vm.assume(actions[3].actionType <= 2);
         for (uint256 i = 0; i < actions.length; i++) {
             Action memory action = actions[i];
+            ActionType act = ActionType(action.actionType);
 
             // Selezione deterministica/simbolica del bidder dall'array
             uint256 bidderIndex = action.bidderSeed % bidders.length;
             address currentBidder = bidders[bidderIndex];
 
-            if (action.actionType == ActionType.BID) {
+            if (act == ActionType.BID) {
                 _executeBid(currentBidder, action.amount);
-            } else if (action.actionType == ActionType.FINISH) {
+            } else if (act == ActionType.FINISH) {
                 _executeFinish(currentBidder);
             }
             // Se ActionType.NOOP non fa nulla (permette sequenze più corte)
