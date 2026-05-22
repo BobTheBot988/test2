@@ -1,11 +1,16 @@
 [profile.default]
+remappings = [
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
+  "halmos-cheatcodes/=lib/halmos-cheatcodes/src/",
+  "openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/",
+  "forge-std/=lib/forge-std/src/",
+]
+auto_detect_remappings = false
 src = "src"
 test = "test"
 script = "script"
 out = "out"
 libs = ["lib"]
-remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"]
-auto_detect_remappings = true
 libraries = []
 cache = true
 dynamic_test_linking = false

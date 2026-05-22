@@ -5,3 +5,4 @@ solver-timeout-assertion = 6000
 storage-layout = "generic"
 early-exit = true
 coverage-output = "/tmp/coverage.out"
+contract = "SystemInvariantTest"
