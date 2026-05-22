@@ -9,6 +9,7 @@ out/
 
 # Docs
 docs/
+*.lock
 
 lib/
 # Dotenv file

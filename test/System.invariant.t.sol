@@ -110,10 +110,10 @@ contract SystemInvariantTest is Test, SymTest {
     // Definiamo una sequenza di 4 azioni consecutive nello stesso stato
     // --- ENTRYPOINT UNICO PER FOUNDRY---
     function test_SystemInvariants(Action[4] memory actions) public {
-        vm.assume(actions[0].actionType <= 2);
-        vm.assume(actions[1].actionType <= 2);
-        vm.assume(actions[2].actionType <= 2);
-        vm.assume(actions[3].actionType <= 2);
+        actions[0].actionType = uint8(bound(actions[0].actionType, 0, 2));
+        actions[1].actionType = uint8(bound(actions[0].actionType, 0, 2));
+        actions[2].actionType = uint8(bound(actions[0].actionType, 0, 2));
+        actions[3].actionType = uint8(bound(actions[0].actionType, 0, 2));
         for (uint256 i = 0; i < actions.length; i++) {
             Action memory action = actions[i];
             ActionType act = ActionType(action.actionType);
@@ -140,7 +140,7 @@ contract SystemInvariantTest is Test, SymTest {
 
     function _executeBid(address bidder, uint256 amount) internal {
         // Evitiamo bid superiori al bilancio o pari a zero per non sporcare i path puliti
-        vm.assume(amount > 0 && amount <= 100_000);
+        amount = bound(amount, 1, 100_000);
 
         vm.startPrank(bidder);
         // Approviamo l'asta a prelevare i token ERC20 del bidder
@@ -189,7 +189,7 @@ contract SystemInvariantTest is Test, SymTest {
 
     function _test_executeBid(address bidder, uint256 amount) internal {
         // Evitiamo bid superiori al bilancio o pari a zero per non sporcare i path puliti
-        vm.assume(amount > 0 && amount <= 100_000);
+        amount = bound(amount, 1, 100_000);
 
         vm.startPrank(bidder);
         // Approviamo l'asta a prelevare i token ERC20 del bidder

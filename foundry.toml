@@ -127,24 +127,8 @@ ignore = []
 [fuzz]
 runs = 100000
 fail_on_revert = false
-dictionary_weight = 40
-include_storage = true
-include_push_bytes = true
-max_fuzz_dictionary_addresses = 15728640
-max_fuzz_dictionary_values = 9830400
-max_fuzz_dictionary_literals = 6553600
-gas_report_samples = 256
-corpus_gzip = true
-corpus_min_mutations = 5
-corpus_min_size = 0
-show_edge_coverage = false
-failure_persist_dir = "cache/fuzz"
-show_logs = false
 max_assume_rejects = 655360000
 
-[labels]
-
-[vyper]
 
 [bind_json]
 out = "utils/JsonBindings.sol"
