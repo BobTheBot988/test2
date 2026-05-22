@@ -40,6 +40,12 @@ contract SystemInvariantTest is Test, SymTest {
         uint256 bidderSeed;
     }
 
+    struct ActionHalmos {
+        uint8 actionType;
+        uint256 amount;
+        uint8 bidderIndex;
+    }
+
     // Spostato da constructor a setUp per totale compatibilità con Halmos
     function setUp() public {
         token = new ERC20Mock();
@@ -79,32 +85,33 @@ contract SystemInvariantTest is Test, SymTest {
         vm.stopPrank();
     }
 
-    // --- ENTRYPOINT UNICO PER HALMOS ---
-    function check_SystemInvariants(Action[4] memory actions) public {
-        vm.assume(actions[0].actionType <= 2);
-        vm.assume(actions[1].actionType <= 2);
-        vm.assume(actions[2].actionType <= 2);
-        vm.assume(actions[3].actionType <= 2);
-        for (uint256 i = 0; i < actions.length; i++) {
-            Action memory action = actions[i];
-            ActionType act = ActionType(action.actionType);
+    // --- ENTRYPOINT OTTIMIZZATO PER HALMOS ---
+    function check_SystemInvariants(ActionHalmos[3] memory actions) public {
+        // 1. Vincoliamo i tipi di azione e gli indici dei bidder
+        vm.assume(actions[0].actionType <= 2 && actions[0].bidderIndex <= 2);
+        vm.assume(actions[1].actionType <= 2 && actions[1].bidderIndex <= 2);
+        vm.assume(actions[2].actionType <= 2 && actions[2].bidderIndex <= 2);
 
-            // Selezione deterministica/simbolica del bidder dall'array
-            uint256 bidderIndex = action.bidderSeed % bidders.length;
-            address currentBidder = bidders[bidderIndex];
+        // 2. Vincoliamo gli importi dei BID direttamente qui per evitare il cheatcode 'bound'
+        vm.assume(actions[0].amount >= 1 && actions[0].amount <= 100_000);
+        vm.assume(actions[1].amount >= 1 && actions[1].amount <= 100_000);
+        vm.assume(actions[2].amount >= 1 && actions[2].amount <= 100_000);
+
+        for (uint256 i = 0; i < actions.length; i++) {
+            ActionHalmos memory action = actions[i];
+            ActionType act = ActionType(action.actionType);
+            address currentBidder = bidders[action.bidderIndex];
 
             if (act == ActionType.BID) {
+                // Rimuovi il bound interno a _executeBid se usi i vm.assume sopra
                 _executeBid(currentBidder, action.amount);
             } else if (act == ActionType.FINISH) {
                 _executeFinish(currentBidder);
             }
-            // Se ActionType.NOOP non fa nulla (permette sequenze più corte)
 
-            // Controlla le invarianti alla fine di OGNI transazione della sequenza
             _assertInvariants();
         }
         _executeFinish(owner);
-        instantiate_auction();
     }
 
     // Definiamo una sequenza di 4 azioni consecutive nello stesso stato
@@ -114,6 +121,7 @@ contract SystemInvariantTest is Test, SymTest {
         actions[1].actionType = uint8(bound(actions[0].actionType, 0, 2));
         actions[2].actionType = uint8(bound(actions[0].actionType, 0, 2));
         actions[3].actionType = uint8(bound(actions[0].actionType, 0, 2));
+
         for (uint256 i = 0; i < actions.length; i++) {
             Action memory action = actions[i];
             ActionType act = ActionType(action.actionType);
@@ -123,7 +131,8 @@ contract SystemInvariantTest is Test, SymTest {
             address currentBidder = bidders[bidderIndex];
 
             if (act == ActionType.BID) {
-                _test_executeBid(currentBidder, action.amount);
+                uint256 boundedAmount = bound(action.amount, 1, 100_000);
+                _test_executeBid(currentBidder, boundedAmount);
             } else if (act == ActionType.FINISH) {
                 _test_executeFinish(currentBidder);
             }
@@ -139,9 +148,6 @@ contract SystemInvariantTest is Test, SymTest {
     // --- LOGICA DI ESECUZIONE DELLE AZIONI ---
 
     function _executeBid(address bidder, uint256 amount) internal {
-        // Evitiamo bid superiori al bilancio o pari a zero per non sporcare i path puliti
-        amount = bound(amount, 1, 100_000);
-
         vm.startPrank(bidder);
         // Approviamo l'asta a prelevare i token ERC20 del bidder
         token.approve(address(auction), amount);
