@@ -14,7 +14,6 @@ contract Auction is IERC721Receiver {
     IERC721 public coll;
     uint256 public startTime;
     uint256 public endTime;
-    address[] public bidders;
 
     struct NFT {
         uint256 tokenId;
@@ -34,13 +33,11 @@ contract Auction is IERC721Receiver {
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
 
-    function bid(uint256 amount) public {
-    }
+    function bid(uint256 amount) public {}
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function finishAuction() public returns (address) {
-    }
+    function finishAuction() public returns (address) {}
 }
