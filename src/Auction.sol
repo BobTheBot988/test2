@@ -33,11 +33,13 @@ contract Auction is IERC721Receiver {
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
 
-    function bid(uint256 amount) public {}
+    function bid(uint256 amount) public {
+    }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function finishAuction() public returns (address) {}
+    function finishAuction() public returns (address) {
+    }
 }
