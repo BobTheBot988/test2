@@ -2,10 +2,48 @@
   "env": {
     "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
     "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
     "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
     "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
   },
   "disableAllHooks": true,
   "hooks": {
@@ -16,6 +54,54 @@
           {
             "type": "command",
             "command": "$HOME/.local/bin/pre_hook",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
             "timeout": 30000
           }
         ]
@@ -25,9 +111,416 @@
       {
         "matcher": "",
         "hooks": [
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
           {
             "type": "command",
             "command": "$HOME/.local/bin/post_hook",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+            "timeout": 60000
+          }
+        ]
+      }
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+          {
+            "type": "command",
+            "command": "$HOME/.local/bin/post_hook",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+            "timeout": 60000
+          }
+        ]
+    ]
+  },
+  "sandbox": {
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+          {
+            "type": "command",
+            "command": "$HOME/.local/bin/post_hook",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+            "timeout": 60000
+          }
+        ]
+    "enabled": false,
+    "autoAllowBashIfSandboxed": false,
+    "filesystem": {
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
             "timeout": 60000
           }
         ]
@@ -36,23 +529,122 @@
   },
   "sandbox": {
     "enabled": false,
-    "autoAllowBashIfSandboxed": false,
-    "filesystem": {
       "allowWrite": ["./src/"],
       "denyWrite": ["."],
       "allowRead": ["."]
+      "allowRead": [
+        "."
+      ]
     },
     "faileIfUnavailable": true
   },
   "permissions": {
     "allow": ["Read(./**)", "Edit(./**)"]
+      "Read(./**)",
+      "Edit(./**)"
+    ]
   },
   "modelProvider": "custom",
   "customModel": {
     "url": "http:localhost:8080",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pre_hook",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(?!mcp_).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "post_hook",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  "env": {
+    "ANTHROPIC_BASE_URL": "http:127.0.0.1:8080",
+    "ANTHROPIC_MODEL": "qwen3-solidity-27B-Q6_K.gguf",
+    "ANTHROPIC_API_KEY": "sk-no-key-required",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000"
+    "CLAUDE_CODE_DEBUG_LOG_LEVEL": "verbose"
+  },
+  "disableAllHooks": true,
+  "hooks": {
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": false,
+      "allowWrite": ["./src/"],
+      "denyWrite": ["."],
+      "allowRead": ["."]
+      "allowRead": [
+        "."
+      ]
+    },
+    "faileIfUnavailable": true
+  },
+  "permissions": {
+    "allow": ["Read(./**)", "Edit(./**)"]
+      "Read(./**)",
+      "Edit(./**)"
+    ]
+  },
+  "modelProvider": "custom",
+  "customModel": {
     "modelName": "qwen3-solidity-27B-Q6_K.gguf",
     "apiKey": "not-needed",
     "modelCapabilities": ["completion"],
+      "completion"
+    ],
     "provider": "openai"
+  },
+  "mcpServers": {
+    "solidity-synthesis": {
+      "command": "mcp_synth",
+      "args": [
+        "--cwd",
+        ".",
+        "--project",
+        "auction-deepseek-flash",
+        "--invariants",
+        "1"
+      ]
+    }
   }
 }

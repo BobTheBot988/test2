@@ -14,6 +14,8 @@ contract Auction is IERC721Receiver {
     IERC721 public coll;
     uint256 public startTime;
     uint256 public endTime;
+    bool public finished;
+    address public highestBidder;
 
     struct NFT {
         uint256 tokenId;
@@ -28,12 +30,30 @@ contract Auction is IERC721Receiver {
         uint256 _endTime
     ) {
         require(_collection.ownerOf(tokenId) == msg.sender && msg.sender == _owner && block.timestamp < _endTime);
+        owner = _owner;
+        token = _token;
+        coll = _collection;
+        auctionedToken = NFT(tokenId);
+        startTime = _startTime;
+        endTime = _endTime;
     }
 
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
 
     function bid(uint256 amount) public {
+        if (finished) {
+            revert AlreadyFinished();
+        }
+        if (block.timestamp >= endTime) {
+            revert AlreadyFinished();
+        }
+        token.transferFrom(msg.sender, address(this), amount);
+        bids[msg.sender] += amount;
+        hasBid[msg.sender] = true;
+        if (bids[msg.sender] > bids[highestBidder]) {
+            highestBidder = msg.sender;
+        }
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
@@ -41,5 +61,14 @@ contract Auction is IERC721Receiver {
     }
 
     function finishAuction() public returns (address) {
+        if (finished) {
+            revert AlreadyFinished();
+        }
+        if (block.timestamp < endTime) {
+            revert AlreadyFinished();
+        }
+        finished = true;
+        coll.transferFrom(owner, highestBidder, auctionedToken.tokenId);
+        return highestBidder;
     }
 }
