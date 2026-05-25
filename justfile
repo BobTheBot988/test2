@@ -1,5 +1,6 @@
 alias b := build
 alias r := run
+alias d := debug
 alias am := add-mcp
 alias as := add-skill
 
@@ -11,6 +12,8 @@ add-mcp:
 
 build:
     forge b
+debug:
+  claude --debug mcp --debug-file /tmp/claude_debug.log --append-system-prompt-file prompt.md --dangerously-skip-permissions
 run:
     claude --append-system-prompt-file prompt.md --dangerously-skip-permissions
 install:
