@@ -8,7 +8,7 @@ add-skill:
   npx skills install openzeppelin/openzeppelin-skills@develop-secure-contracts
 
 add-mcp:
-  claude mcp add --transport stdio solidity-synthesis -- mcp_synth --cwd . --project auction-deepseek-flash --invariants 1
+  claude mcp add --transport stdio solidity-synthesis -- mcp_synth --cwd . --project auction --invariants 1
 
 build:
     forge b
