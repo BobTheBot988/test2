@@ -10,6 +10,12 @@ add-skill:
 add-mcp:
   claude mcp add --transport stdio solidity-synthesis -- mcp_synth --cwd . --project auction --invariants 1
 
+halmos f="":
+    halmos --loop 10 --solver-threads 16 {{ f }}
+
+halmos-c contract f="":
+    halmos --match-contract {{ contract }} --loop 10 --solver-threads 16 --function check {{ f }}
+
 build:
     forge b
 debug:
