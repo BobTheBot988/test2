@@ -4,6 +4,6 @@ loop = 10
 solver-timeout-assertion = 6000
 storage-layout = "generic"
 early-exit = true
-coverage-output = "/tmp/coverage.out"
+coverage-output = "coverage.out"
 contract = "SystemInvariantTest"
 function = "check"
