@@ -250,7 +250,8 @@ contract SystemInvariantTest is Test, SymTest {
     function _assertInvariants() internal view {
         // Ripristinato il tuo test sui bid mappati
         // Se l'asta è stata conclusa con successo, verifica il vincitore e l'NFT
-        if (ghost_has_finished && ghost_winner != address(0)) {
+        if (ghost_has_finished && ghost_nbid > 0) {
+            assert(ghost_winner != address(0));
             assert(ghost_max_bidder == ghost_winner);
 
             // Verifica che il vincitore abbia ricevuto l'NFT dell'iterazione precedente (quella conclusa)
