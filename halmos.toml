@@ -1,7 +1,7 @@
 [global]
 solver = "z3"
 loop = 10
-solver-timeout-assertion = 6000
+solver-timeout-assertion = 1000
 storage-layout = "generic"
 early-exit = true
 coverage-output = "coverage.info"
