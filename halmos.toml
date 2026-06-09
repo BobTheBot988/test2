@@ -1,7 +1,7 @@
 [global]
 solver = "z3"
 loop = 10
-solver-timeout-assertion = 1000
+solver-timeout-assertion = 5000
 storage-layout = "generic"
 early-exit = true
 contract = "SystemInvariantTest"
