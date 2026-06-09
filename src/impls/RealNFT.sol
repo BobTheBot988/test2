@@ -12,7 +12,14 @@ contract ZPunks is ERC721, ERC721URIStorage {
 
     function safeMint(address to, string memory uri) public returns (uint256) {
         uint256 tokenId = _nextTokenId++;
+        return _mintNoCallback(to, tokenId, uri);
         _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+        return tokenId;
+    }
+
+    function _mintNoCallback(address to, uint256 tokenId, string memory uri) internal returns (uint256) {
+        _mint(to, tokenId);
         _setTokenURI(tokenId, uri);
         return tokenId;
     }
