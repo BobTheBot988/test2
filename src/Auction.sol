@@ -19,6 +19,10 @@ contract Auction is IERC721Receiver {
         uint256 tokenId;
     }
 
+    address public currentMaxBidder;
+    uint256 public currentMaxBid;
+    bool public finished;
+
     constructor(
         IERC20 _token,
         IERC721 _collection,
@@ -28,12 +32,33 @@ contract Auction is IERC721Receiver {
         uint256 _endTime
     ) {
         require(_collection.ownerOf(tokenId) == msg.sender && msg.sender == _owner && block.timestamp < _endTime);
+        token = _token;
+        coll = _collection;
+        auctionedToken = NFT({tokenId: tokenId});
+        owner = _owner;
+        startTime = _startTime;
+        endTime = _endTime;
     }
 
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
 
     function bid(uint256 amount) public {
+        if (finished) revert AlreadyFinished();
+        if (block.timestamp > endTime) revert AlreadyFinished();
+        if (hasBid[msg.sender] && amount <= bids[msg.sender]) revert();
+        if (!hasBid[msg.sender] && amount <= currentMaxBid) revert();
+        if (hasBid[msg.sender]) {
+            bids[msg.sender] += amount;
+        } else {
+            bids[msg.sender] = amount;
+            hasBid[msg.sender] = true;
+        }
+        IERC20(token).transferFrom(msg.sender, address(this), amount);
+        if (bids[msg.sender] > currentMaxBid) {
+            currentMaxBid = bids[msg.sender];
+            currentMaxBidder = msg.sender;
+        }
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
@@ -41,5 +66,13 @@ contract Auction is IERC721Receiver {
     }
 
     function finishAuction() public returns (address) {
+        if (finished) revert AlreadyFinished();
+        if (block.timestamp <= endTime) revert();
+        address winner = currentMaxBidder;
+        finished = true;
+        if (winner != address(0)) {
+            IERC721(coll).safeTransferFrom(owner, winner, auctionedToken.tokenId);
+        }
+        return winner;
     }
 }
