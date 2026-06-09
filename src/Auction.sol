@@ -14,6 +14,8 @@ contract Auction is IERC721Receiver {
     IERC721 public coll;
     uint256 public startTime;
     uint256 public endTime;
+    bool public finished;
+    bool private _nftPulled;
 
     struct NFT {
         uint256 tokenId;
@@ -28,12 +30,32 @@ contract Auction is IERC721Receiver {
         uint256 _endTime
     ) {
         require(_collection.ownerOf(tokenId) == msg.sender && msg.sender == _owner && block.timestamp < _endTime);
+        owner = _owner;
+        auctionedToken = NFT(tokenId);
+        token = _token;
+        coll = _collection;
+        startTime = _startTime;
+        endTime = _endTime;
     }
 
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
+    address[] public bidders;
+    mapping(address => bool) private _seen;
 
     function bid(uint256 amount) public {
+        if (finished) revert AlreadyFinished();
+        if (!_nftPulled) {
+            _nftPulled = true;
+            coll.transferFrom(owner, address(this), auctionedToken.tokenId);
+        }
+        token.transferFrom(msg.sender, address(this), amount);
+        bids[msg.sender] += amount;
+        hasBid[msg.sender] = true;
+        if (!_seen[msg.sender]) {
+            _seen[msg.sender] = true;
+            bidders.push(msg.sender);
+        }
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
@@ -41,5 +63,21 @@ contract Auction is IERC721Receiver {
     }
 
     function finishAuction() public returns (address) {
+        if (finished) revert AlreadyFinished();
+        require(block.timestamp > endTime, "not ended");
+        finished = true;
+
+        address winner;
+        uint256 maxBid;
+        for (uint256 i = 0; i < bidders.length; i++) {
+            address b = bidders[i];
+            if (bids[b] > maxBid) {
+                maxBid = bids[b];
+                winner = b;
+            }
+        }
+
+        coll.transferFrom(address(this), winner, auctionedToken.tokenId);
+        return winner;
     }
 }
