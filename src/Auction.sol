@@ -32,8 +32,18 @@ contract Auction is IERC721Receiver {
 
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
+    bool private finished;
+    address[] private bidders;
 
     function bid(uint256 amount) public {
+        if (finished || block.timestamp < startTime || block.timestamp > endTime) revert AlreadyFinished();
+        require(amount > 0);
+        token.transferFrom(msg.sender, address(this), amount);
+        bids[msg.sender] += amount;
+        if (!hasBid[msg.sender]) {
+            bidders.push(msg.sender);
+        }
+        hasBid[msg.sender] = true;
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
@@ -41,5 +51,20 @@ contract Auction is IERC721Receiver {
     }
 
     function finishAuction() public returns (address) {
+        if (finished || block.timestamp <= endTime) revert AlreadyFinished();
+        finished = true;
+        uint256 highestBid;
+        address highestBidder;
+        for (uint256 i = 0; i < bidders.length; i++) {
+            address bidder = bidders[i];
+            if (bids[bidder] > highestBid) {
+                highestBid = bids[bidder];
+                highestBidder = bidder;
+            }
+        }
+        if (highestBidder != address(0)) {
+            coll.safeTransferFrom(owner, highestBidder, auctionedToken.tokenId);
+        }
+        return highestBidder;
     }
 }
