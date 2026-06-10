@@ -15,6 +15,10 @@ contract Auction is IERC721Receiver {
     uint256 public startTime;
     uint256 public endTime;
 
+    bool public finished;
+    address public highestBidder;
+    uint256 public highestBid;
+
     struct NFT {
         uint256 tokenId;
     }
@@ -28,12 +32,32 @@ contract Auction is IERC721Receiver {
         uint256 _endTime
     ) {
         require(_collection.ownerOf(tokenId) == msg.sender && msg.sender == _owner && block.timestamp < _endTime);
+        owner = _owner;
+        token = _token;
+        coll = _collection;
+        auctionedToken = NFT(tokenId);
+        startTime = _startTime;
+        endTime = _endTime;
     }
 
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
 
     function bid(uint256 amount) public {
+        if (finished) revert AlreadyFinished();
+        require(block.timestamp >= startTime && block.timestamp < endTime, "Auction not active");
+        require(amount > bids[msg.sender], "Bid not higher than current");
+
+        uint256 additional = amount - bids[msg.sender];
+        token.transferFrom(msg.sender, address(this), additional);
+
+        bids[msg.sender] = amount;
+        hasBid[msg.sender] = true;
+
+        if (amount > highestBid) {
+            highestBid = amount;
+            highestBidder = msg.sender;
+        }
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
@@ -41,5 +65,22 @@ contract Auction is IERC721Receiver {
     }
 
     function finishAuction() public returns (address) {
+        if (finished) revert AlreadyFinished();
+        require(block.timestamp >= endTime, "Auction still active");
+
+        finished = true;
+
+        address winner = highestBidder;
+        uint256 winningBid = highestBid;
+        uint256 tokenId = auctionedToken.tokenId;
+
+        if (winner != address(0)) {
+            coll.transferFrom(owner, winner, tokenId);
+            token.transfer(owner, winningBid);
+        } else {
+            coll.transferFrom(owner, owner, tokenId);
+        }
+
+        return winner;
     }
 }
