@@ -4,6 +4,7 @@ pragma solidity ^0.8.33;
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract Auction is IERC721Receiver {
     error AlreadyFinished();
@@ -28,12 +29,36 @@ contract Auction is IERC721Receiver {
         uint256 _endTime
     ) {
         require(_collection.ownerOf(tokenId) == msg.sender && msg.sender == _owner && block.timestamp < _endTime);
+        token = _token;
+        coll = _collection;
+        auctionedToken = NFT(tokenId);
+        owner = _owner;
+        startTime = _startTime;
+        endTime = _endTime;
     }
 
     mapping(address => uint256) public bids;
     mapping(address => bool) public hasBid;
 
+    address public highestBidder;
+    uint256 public highestBid;
+    bool public finished;
+
     function bid(uint256 amount) public {
+        if (finished) revert AlreadyFinished();
+        require(block.timestamp >= startTime, "Auction not started");
+        require(block.timestamp < endTime, "Auction ended");
+        require(amount > 0, "Bid must be positive");
+
+        SafeERC20.safeTransferFrom(token, msg.sender, address(this), amount);
+
+        bids[msg.sender] += amount;
+        hasBid[msg.sender] = true;
+
+        if (bids[msg.sender] > highestBid) {
+            highestBid = bids[msg.sender];
+            highestBidder = msg.sender;
+        }
     }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
@@ -41,5 +66,18 @@ contract Auction is IERC721Receiver {
     }
 
     function finishAuction() public returns (address) {
+        if (finished) revert AlreadyFinished();
+        require(block.timestamp >= endTime, "Auction still active");
+
+        finished = true;
+
+        address winner = highestBidder;
+
+        if (winner != address(0)) {
+            coll.transferFrom(owner, winner, auctionedToken.tokenId);
+            SafeERC20.safeTransfer(token, owner, highestBid);
+        }
+
+        return winner;
     }
 }
